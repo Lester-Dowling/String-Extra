@@ -4,9 +4,8 @@ project (
   VERSION 0.5.0
   DESCRIPTION "Common predicates and convenience functions for std::string."
   )
-option(BUILD_UNIT_TESTS "Whether to build or ignore unit tests for this project" OFF)
-message(STATUS "Building unit tests: ${BUILD_UNIT_TESTS}")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 #
 # This project only has interface headers.  No translation units.
@@ -35,6 +34,26 @@ target_include_directories(${PROJECT_NAME}
   ${CMAKE_CURRENT_SOURCE_DIR}/public)
 
 #
+# Parent directory for locally cached repositories of open source software (oss)
+#
+option(GRANT_INTERNET_ACCESS "Permit CMake to download from the Internet" OFF)
+message(STATUS "Access Internet permission: ${GRANT_INTERNET_ACCESS}")
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+  get_filename_component(HOME $ENV{USERPROFILE} ABSOLUTE)
+else()
+  get_filename_component(HOME $ENV{HOME} ABSOLUTE)
+endif()
+get_filename_component(LOCALLY_CACHED_REPOS_DIR "${HOME}/oss" ABSOLUTE)
+if(EXISTS ${LOCALLY_CACHED_REPOS_DIR})
+  message(STATUS "Locally cached repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
+else()
+  message(WARNING "No local repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
+endif()
+
+# Make globally available all required external libraries:
+add_subdirectory ("external")
+
+#
 # Boost
 #
 target_link_libraries(
@@ -46,6 +65,8 @@ target_link_libraries(
 #
 # Unit tests
 #
+option(BUILD_UNIT_TESTS "Whether to build or ignore unit tests for this project" ON)
+message(STATUS "Building unit tests: ${BUILD_UNIT_TESTS}")
 if (BUILD_UNIT_TESTS)
   # include(CTest)
   # enable_testing()

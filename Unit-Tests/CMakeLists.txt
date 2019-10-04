@@ -1,5 +1,6 @@
 ﻿cmake_minimum_required (VERSION 3.15)
 set(TARGET "Unit-Tests")
+# Build unit tests as a plain command line tool:
 add_executable (
   ${TARGET}
   "main-unit-tests.cpp"
