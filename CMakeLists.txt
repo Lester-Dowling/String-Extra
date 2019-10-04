@@ -1,0 +1,53 @@
+﻿cmake_minimum_required (VERSION 3.15)
+project (
+  "String-Extra"
+  VERSION 0.5.0
+  DESCRIPTION "Common predicates and convenience functions for std::string."
+  )
+option(BUILD_UNIT_TESTS "Whether to build or ignore unit tests for this project" OFF)
+message(STATUS "Building unit tests: ${BUILD_UNIT_TESTS}")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+#
+# This project only has interface headers.  No translation units.
+#
+add_library( ${PROJECT_NAME} INTERFACE )
+
+file(GLOB_RECURSE PUB_FILES LIST_DIRECTORIES false CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/public/*)
+target_sources(${PROJECT_NAME}
+  INTERFACE  ${PUB_FILES}
+  )
+# Debug dump of public interface files:
+foreach(pub_file ${PUB_FILES})
+  message(STATUS "${PROJECT_NAME} pub file: ${pub_file}")
+endforeach(pub_file)
+
+# Top-level include directories:
+target_include_directories(${PROJECT_NAME}
+  INTERFACE
+  ${CMAKE_CURRENT_SOURCE_DIR})
+
+#
+# The public include directory for this library's clients
+#
+target_include_directories(${PROJECT_NAME}
+  INTERFACE
+  ${CMAKE_CURRENT_SOURCE_DIR}/public)
+
+#
+# Boost
+#
+target_link_libraries(
+  ${PROJECT_NAME}
+  INTERFACE
+  Boost::boost
+  )
+
+#
+# Unit tests
+#
+if (BUILD_UNIT_TESTS)
+  # include(CTest)
+  # enable_testing()
+  add_subdirectory ("Unit-Tests")
+endif()
