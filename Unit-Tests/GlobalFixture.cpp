@@ -27,9 +27,10 @@ GlobalFixture::GlobalFixture()
 GlobalFixture::~GlobalFixture()
 {
 	const auto m_finish_time = std::chrono::system_clock::now();
-	const auto unit_testing_duration = m_finish_time - m_start_time;
+	const std::chrono::duration<double, std::milli> unit_testing_duration =
+	  m_finish_time - m_start_time;
 	// wcout << "Unit testing finished at " << m_finish_time << endl;
-	// wcout << "Unit testing took " << unit_testing_duration << endl;
+	wcout << "Unit testing took " << unit_testing_duration.count() << "ms" << endl;
 	if (!m_finish_without_user_prompt) {
 		cout << endl << endl << "Please press <Enter> to finish: " << flush;
 		getchar();
