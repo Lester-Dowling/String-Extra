@@ -5,6 +5,34 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "(gdb) Launch",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/Unit-Tests/Unit-Tests",
+			"args": [
+				"--color_output",
+				"--report_level=short",
+				"--log_level=message"
+			],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [
+				{
+					"name": "FINISH_WITHOUT_USER_PROMPT",
+					"value": "1"
+				}
+			],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{
+					"description": "Enable pretty-printing for gdb",
+					"text": "-enable-pretty-printing",
+					"ignoreFailures": true
+				}
+			]
+		},
+		{
 			"name": "(Windows) Run Unit Tests",
 			"type": "cppvsdbg",
 			"request": "launch",

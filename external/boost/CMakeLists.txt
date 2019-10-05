@@ -31,15 +31,19 @@ if(NOT EXISTS ${BOOST_LIBRARYDIR})
   endif()
 endif()
 get_filename_component(BOOST_CMAKE_DIR "${BOOST_LIBRARYDIR}/cmake" ABSOLUTE)
-if(NOT EXISTS ${BOOST_CMAKE_DIR})
-  message(FATAL_ERROR "BOOST_CMAKE_DIR is not defined.")
+if(EXISTS ${BOOST_CMAKE_DIR})
+  find_package(
+    Boost ${BOOST_VERSION} REQUIRED
+    COMPONENTS ${Boost_LIBRARIES}
+    PATHS ${BOOST_CMAKE_DIR}
+    )
+else()
+  find_package(
+    Boost ${BOOST_VERSION} REQUIRED
+    COMPONENTS ${Boost_LIBRARIES}
+    )
 endif()
 
-find_package(
-  Boost ${BOOST_VERSION} REQUIRED
-  COMPONENTS ${Boost_LIBRARIES}
-  PATHS ${BOOST_CMAKE_DIR}
-  )
 
 if (Boost_FOUND)
   set_target_properties(
@@ -72,11 +76,6 @@ if (Boost_FOUND)
 	  _WIN32_WINNT=_WIN32_WINNT_WIN10
 	  _WINSOCK_DEPRECATED_NO_WARNINGS)
   endif(WIN32)
-
-  if(NOT WIN32)
-	# Support for <boost/dll.hpp> on Linux:
-	target_link_libraries(Boost::boost PUBLIC dl)
-  endif()
 
   #
   # Copy Boost DLLs
