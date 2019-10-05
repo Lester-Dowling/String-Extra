@@ -83,6 +83,7 @@ endif(WIN32)
 
 #
 # Discover all the unit tests
+# THIS IS NOT USED: RUN UNIT TESTS AS A PLAIN COMMAND LINE TOOL
 #
 # list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules")
 # include(Discover.Boost.Test)

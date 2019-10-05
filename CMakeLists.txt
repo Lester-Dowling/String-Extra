@@ -54,7 +54,7 @@ endif()
 add_subdirectory ("external")
 
 #
-# Boost
+# Boost library from external
 #
 target_link_libraries(
   ${PROJECT_NAME}
