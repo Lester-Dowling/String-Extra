@@ -5,7 +5,7 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(gdb) Launch",
+			"name": "(gdb) Run Unit Tests",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/build/Unit-Tests/Unit-Tests",
@@ -14,15 +14,15 @@
 				"--report_level=short",
 				"--log_level=message"
 			],
-			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
 			"environment": [
 				{
-					"name": "FINISH_WITHOUT_USER_PROMPT",
-					"value": "1"
+					"name": "FINISH_WITH_USER_PROMPT",
+					"value": "0" // Finish WITHOUT user prompt for externalConsole == false
 				}
 			],
 			"externalConsole": false,
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
 			"MIMode": "gdb",
 			"setupCommands": [
 				{
@@ -36,21 +36,22 @@
 			"name": "(Windows) Run Unit Tests",
 			"type": "cppvsdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/build/Unit-Tests/Unit-Tests.exe",
+			// Resolved by CMake Tools:
+			"program": "${command:cmake.launchTargetPath}",
 			"args": [
 				"--color_output",
 				"--report_level=short",
 				"--log_level=message"
 			],
-			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
 			"environment": [
 				{
-					"name": "FINISH_WITHOUT_USER_PROMPT",
-					"value": "1"
+					"name": "FINISH_WITH_USER_PROMPT",
+					"value": "1" // Finish WITH user prompt for externalConsole == true
 				}
 			],
-			"externalConsole": false
+			"externalConsole": true,
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}"
 		}
 	]
 }
