@@ -17,10 +17,10 @@
 			"environment": [
 				{
 					"name": "FINISH_WITH_USER_PROMPT",
-					"value": "0" // Finish WITHOUT user prompt for externalConsole == false
+					"value": "0" // Finish WITHOUT user prompt for externalConsole == true in Ubuntu
 				}
 			],
-			"externalConsole": false,
+			"externalConsole": true,
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"MIMode": "gdb",
