@@ -3,21 +3,42 @@ Common predicates and convenience functions for working with std::string.
 
 Intended as a git submodule within a larger project.
 
-## Versions
+## Operational
 
-C++17
+This repo is known to work and be operational with the following versions:
 
-CMake 3.15
+| Version         | Comment                                              |
+| --------------- | ---------------------------------------------------- |
+| C++17           | g++ 8.3.0                                            |
+| Boost 1.71.0    | Requires custom install.  See my Boost scripts repo. |
+| CMake 3.15      | Requires custom install or custom build in Ubuntu.   |
+| GraphViz 2.38.0 | GraphViz's bin directory is assumed to be in PATH.   |
 
-GraphViz 2.38.0
+GraphViz parses the DOT output from Boost.Test in order to automatically capture the list of tests for CTest to run.  GraphViz is normally installed when installing Doxygen.
 
-GraphViz parses the DOT output from Boost.Test in order to automatically capture the list of tests for CTest to run.
-GraphViz's bin directory is assumed to be in the PATH environment variable.  (GraphViz is normally installed when installing Doxygen.)
-
+CMake version 3.15 is used to follow modern CMake best practices.
 
 ## Unit Tests
-Run under CTest.  Working and tested with:
 
-Microsoft Visual Studio Community 2019 Preview Version 16.4.0 Preview 1.0
+The unit tests of this repo are intended for CTest to execute.
+Unit test execution is known to work under:
 
-Microsoft Visual Studio Code 1.38 for both Windows 10 and Ubuntu
+| IDE                                    | Version                        |
+| -------------------------------------- | ------------------------------ |
+| Microsoft Visual Studio Community 2019 | 16.4.0 Preview 1.0             |
+| Microsoft Visual Studio Code           | 1.38 for Windows 10 and Ubuntu |
+
+### Ubuntu Terminal
+
+Run unit tests from Ubuntu terminal:
+
+```Bash
+    > cd String-Extra
+    > mkdir build
+    > cd build
+    > cmake ..
+    > cd ..
+    > cmake --build build
+    > cd build
+    > ctest
+```
