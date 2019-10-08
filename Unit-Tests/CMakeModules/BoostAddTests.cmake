@@ -28,8 +28,6 @@ endif()
 
 # Discover a list of tests from Boost.Test.  Use GraphViz to parse the DOT output
 # from --list_content.  Assumes GraphViz's bin is in the execution PATH.
-# get_filename_component(
-	# PARSE_DOT_OUTPUT_C "C:/Users/ljdowling/Projects/Extract-Excel-XML-Data-2017/Unit-# Tests/CMakeModules/parse-dot-output.c" ABSOLUTE)
 
 get_filename_component(PARSE_DOT_OUTPUT_C "parse-dot-output.c" ABSOLUTE)
 
