@@ -65,10 +65,10 @@ target_link_libraries(
 #
 # Unit tests
 #
-option(BUILD_UNIT_TESTS "Whether to build or ignore unit tests for this project" ON)
-message(STATUS "Building unit tests: ${BUILD_UNIT_TESTS}")
-if (BUILD_UNIT_TESTS)
-  # include(CTest)
-  # enable_testing()
-  add_subdirectory ("Unit-Tests")
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    include(CTest)
+endif()
+message(STATUS "Building unit tests: ${BUILD_TESTING}")
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
+    add_subdirectory("Unit-Tests")
 endif()
