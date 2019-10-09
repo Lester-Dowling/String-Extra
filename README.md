@@ -42,3 +42,18 @@ Run unit tests from Ubuntu terminal:
     > cd build
     > ctest
 ```
+
+### Cmd
+
+Run unit tests from the x64 Native Tools Command Prompt for VS 2019 Preview:
+
+```cmd
+    > cd String-Extra
+    > mkdir build
+    > cd build
+    > cmake -G Ninja -D CMAKE_BUILD_TYPE=Release .. 
+    > cd ..
+    > cmake --build build
+    > cd build
+    > ctest
+```
