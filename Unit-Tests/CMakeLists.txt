@@ -62,6 +62,7 @@ endif()
 #
 # Boost
 #
+add_subdirectory ("boost")
 target_link_libraries(
   ${TARGET}
   PRIVATE

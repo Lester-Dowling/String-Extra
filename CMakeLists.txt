@@ -51,7 +51,7 @@ else()
 endif()
 
 # Make globally available all required external libraries:
-add_subdirectory ("external")
+# add_subdirectory ("external")
 
 #
 # Boost library from external
