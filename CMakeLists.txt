@@ -26,7 +26,6 @@ target_include_directories(${PROJECT_NAME}
   INTERFACE
   ${CMAKE_CURRENT_SOURCE_DIR}/public)
 
-
 #
 # Boost library from external
 #
@@ -40,9 +39,9 @@ target_link_libraries(
 # Unit tests
 #
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    include(CTest)
+  include(CTest)
 endif()
 message(STATUS "Building unit tests: ${BUILD_TESTING}")
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-    add_subdirectory("Unit-Tests")
+  add_subdirectory("Unit-Tests")
 endif()
