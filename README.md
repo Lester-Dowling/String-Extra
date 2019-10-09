@@ -9,7 +9,7 @@ This repo is known to work and be operational with the following versions:
 
 | Version         | Comment                                              |
 | --------------- | ---------------------------------------------------- |
-| C++17           | g++ 8.3.0                                            |
+| C++17           | g++ 8.3.0, cl.exe 19.24.28117                        |
 | Boost 1.71.0    | Requires custom install.  See my Boost scripts repo. |
 | CMake 3.15      | Requires custom install or custom build in Ubuntu.   |
 | GraphViz 2.38.0 | GraphViz's bin directory is assumed to be in PATH.   |
