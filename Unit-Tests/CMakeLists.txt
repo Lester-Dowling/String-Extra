@@ -1,6 +1,7 @@
 ﻿cmake_minimum_required (VERSION 3.15)
 set(TARGET "Unit-Tests")
-# Build unit tests as a plain command line tool:
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 add_executable (
   ${TARGET}
   "main-unit-tests.cpp"
@@ -40,6 +41,23 @@ if(WIN32)
 	_CRT_SECURE_NO_WARNINGS
 	_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
   target_compile_options(${TARGET} PRIVATE -GR) # Turn on RTTI.
+endif()
+
+#
+# Parent directory for locally cached repositories of open source software (oss)
+#
+option(GRANT_INTERNET_ACCESS "Permit CMake to download from the Internet" OFF)
+message(STATUS "Access Internet permission: ${GRANT_INTERNET_ACCESS}")
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+  get_filename_component(HOME $ENV{USERPROFILE} ABSOLUTE)
+else()
+  get_filename_component(HOME $ENV{HOME} ABSOLUTE)
+endif()
+get_filename_component(LOCALLY_CACHED_REPOS_DIR "${HOME}/oss" ABSOLUTE)
+if(EXISTS ${LOCALLY_CACHED_REPOS_DIR})
+  message(STATUS "Locally cached repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
+else()
+  message(WARNING "No local repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
 endif()
 
 #
