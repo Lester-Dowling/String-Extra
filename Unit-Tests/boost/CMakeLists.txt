@@ -46,16 +46,6 @@ endif()
 
 
 if (Boost_FOUND)
-  set_target_properties(
-	Boost::boost
-	PROPERTIES IMPORTED_GLOBAL TRUE
-	)
-  foreach(Boost_Lib ${Boost_LIBRARIES})
-    set_target_properties(
-	  ${Boost_Lib}
-	  PROPERTIES IMPORTED_GLOBAL TRUE
-	  )
-  endforeach(Boost_Lib)
   target_compile_definitions(
 	Boost::boost
 	INTERFACE
