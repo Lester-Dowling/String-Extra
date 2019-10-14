@@ -37,6 +37,7 @@ target_link_libraries(
 
 #
 # Unit tests
+# Only build unit tests if this project isn't a submodule in a super-project.
 #
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   include(CTest)
