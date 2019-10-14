@@ -40,8 +40,8 @@ target_link_libraries(
 #
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   include(CTest)
-endif()
-message(STATUS "Building unit tests: ${BUILD_TESTING}")
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-  add_subdirectory("Unit-Tests")
+  message(STATUS "Building unit tests: ${BUILD_TESTING}")
+  if(BUILD_TESTING)
+    add_subdirectory("Unit-Tests")
+  endif()
 endif()
