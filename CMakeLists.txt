@@ -9,6 +9,7 @@ project (
 # This project only has interface headers.  No translation units.
 #
 add_library( ${PROJECT_NAME} INTERFACE )
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 #
 # The public include directory for this library's clients
