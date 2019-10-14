@@ -10,15 +10,6 @@ project (
 #
 add_library( ${PROJECT_NAME} INTERFACE )
 
-file(GLOB_RECURSE PUB_FILES LIST_DIRECTORIES false CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/public/*)
-target_sources(${PROJECT_NAME}
-  INTERFACE  ${PUB_FILES}
-  )
-# Debug dump of public interface files:
-foreach(pub_file ${PUB_FILES})
-  message(STATUS "${PROJECT_NAME} pub file: ${pub_file}")
-endforeach(pub_file)
-
 #
 # The public include directory for this library's clients
 #
@@ -34,6 +25,15 @@ target_link_libraries(
   INTERFACE
   Boost::boost
   )
+
+file(GLOB_RECURSE PUB_FILES LIST_DIRECTORIES false CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/public/*)
+target_sources(${PROJECT_NAME}
+  INTERFACE  ${PUB_FILES}
+  )
+# Debug dump of public interface files:
+foreach(pub_file ${PUB_FILES})
+  message(STATUS "${PROJECT_NAME} pub file: ${pub_file}")
+endforeach(pub_file)
 
 #
 # Unit tests
