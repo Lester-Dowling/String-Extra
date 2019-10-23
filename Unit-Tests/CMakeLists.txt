@@ -3,7 +3,7 @@ set(TARGET "Unit-Tests")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 add_executable(${TARGET} "main-unit-tests.cpp" "GlobalFixture.hpp"
-                         "GlobalFixture.cpp")
+  "GlobalFixture.cpp")
 set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 17)
 file(
   GLOB SRC_TEST_FILES
@@ -52,7 +52,7 @@ endif()
 get_filename_component(LOCALLY_CACHED_REPOS_DIR "${HOME}/oss" ABSOLUTE)
 if(EXISTS ${LOCALLY_CACHED_REPOS_DIR})
   message(STATUS "Locally cached repositories folder: "
-                 ${LOCALLY_CACHED_REPOS_DIR})
+    ${LOCALLY_CACHED_REPOS_DIR})
 else()
   message(WARNING "No local repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
 endif()
@@ -70,7 +70,7 @@ if(EXISTS ${LOCAL_PRECOMPILED_CMAKE})
   include(${LOCAL_PRECOMPILED_CMAKE})
   target_sources(${TARGET} PRIVATE "pch-unit-tests.cpp")
   add_precompiled_header(${TARGET} "pch-unit-tests.hpp" SOURCE_CXX
-                         "pch-unit-tests.cpp")
+    "pch-unit-tests.cpp")
 else()
   message(WARNING "No such repo available: cmake-precompiled-header")
 endif()
@@ -79,16 +79,17 @@ endif()
 # Boost
 #
 add_subdirectory("boost")
-target_link_libraries(
-  ${TARGET} PRIVATE Boost::boost Boost::filesystem Boost::date_time
-                    Boost::regex Boost::unit_test_framework)
+target_link_libraries(${TARGET} PRIVATE Boost::boost)
+foreach(Boost_Lib ${BOOST_REQUIRED_COMPONENTS})
+  target_link_libraries(${TARGET} PRIVATE Boost::${Boost_Lib})
+endforeach(Boost_Lib)
 if(WIN32)
   add_custom_command(
     TARGET ${TARGET} PRE_BUILD
     COMMAND
-      START /MIN "RoboCopy of Boost redist from parent directory" #
-      ROBOCOPY /COPY:DAT /NP /R:2 /W:2 "${CMAKE_BINARY_DIR}"
-      "${CMAKE_CURRENT_BINARY_DIR}" "boost*dll")
+    START /MIN "RoboCopy of Boost redist from parent directory" #
+    ROBOCOPY /COPY:DAT /NP /R:2 /W:2 "${CMAKE_BINARY_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}" "boost*dll")
 endif(WIN32)
 
 #
