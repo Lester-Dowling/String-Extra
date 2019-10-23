@@ -4,19 +4,6 @@ project(
   VERSION 0.5.0
   DESCRIPTION "Common predicates and convenience functions for std::string.")
 set(BOOST_REQUIRED_COMPONENTS boost)
-# Build unit tests only if this project isn't a submodule in a super-project.
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  include(CTest)
-  message(STATUS "Building unit tests: ${BUILD_TESTING}")
-  if(BUILD_TESTING)
-    list(
-      APPEND BOOST_REQUIRED_COMPONENTS #
-             filesystem #
-             date_time #
-             regex #
-             unit_test_framework)
-  endif(BUILD_TESTING)
-endif()
 
 #
 # This project only has interface headers.  No translation units.
@@ -44,9 +31,23 @@ foreach(pub_file ${PUB_FILES})
   message(STATUS "${PROJECT_NAME} pub file: ${pub_file}")
 endforeach(pub_file)
 
+# Build unit tests only if this project isn't a submodule in a super-project.
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  include(CTest)
+  message(STATUS "Building unit tests: ${BUILD_TESTING}")
+  if(BUILD_TESTING)
+    list(
+      APPEND BOOST_REQUIRED_COMPONENTS #
+             filesystem #
+             date_time #
+             regex #
+             unit_test_framework)
+  endif(BUILD_TESTING)
+endif()
+
 #
 # Unit tests
 #
-if(BUILD_TESTING)
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
   add_subdirectory("Unit-Tests")
 endif()
