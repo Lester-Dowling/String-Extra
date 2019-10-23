@@ -1,35 +1,44 @@
-﻿cmake_minimum_required (VERSION 3.15)
-project (
+﻿cmake_minimum_required(VERSION 3.15)
+project(
   "String-Extra"
   VERSION 0.5.0
-  DESCRIPTION "Common predicates and convenience functions for std::string."
-  )
+  DESCRIPTION "Common predicates and convenience functions for std::string.")
+set(BOOST_REQUIRED_COMPONENTS boost)
+# Build unit tests only if this project isn't a submodule in a super-project.
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+  include(CTest)
+  message(STATUS "Building unit tests: ${BUILD_TESTING}")
+  if(BUILD_TESTING)
+    list(
+      APPEND BOOST_REQUIRED_COMPONENTS #
+             filesystem #
+             date_time #
+             regex #
+             unit_test_framework)
+  endif(BUILD_TESTING)
+endif()
 
 #
 # This project only has interface headers.  No translation units.
 #
-add_library( ${PROJECT_NAME} INTERFACE )
+add_library(${PROJECT_NAME} INTERFACE)
 
 #
 # The public include directory for this library's clients
 #
 target_include_directories(${PROJECT_NAME}
-  INTERFACE
-  ${CMAKE_CURRENT_SOURCE_DIR}/public)
+                           INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/public)
 
 #
 # Boost library from external
 #
-target_link_libraries(
-  ${PROJECT_NAME}
-  INTERFACE
-  Boost::boost
-  )
+target_link_libraries(${PROJECT_NAME} INTERFACE Boost::boost)
 
-file(GLOB_RECURSE PUB_FILES LIST_DIRECTORIES false CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/public/*)
-target_sources(${PROJECT_NAME}
-  INTERFACE  ${PUB_FILES}
-  )
+file(
+  GLOB_RECURSE PUB_FILES
+  LIST_DIRECTORIES false
+  CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/public/*)
+target_sources(${PROJECT_NAME} INTERFACE ${PUB_FILES})
 # Debug dump of public interface files:
 foreach(pub_file ${PUB_FILES})
   message(STATUS "${PROJECT_NAME} pub file: ${pub_file}")
@@ -37,12 +46,7 @@ endforeach(pub_file)
 
 #
 # Unit tests
-# Only build unit tests if this project isn't a submodule in a super-project.
 #
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  include(CTest)
-  message(STATUS "Building unit tests: ${BUILD_TESTING}")
-  if(BUILD_TESTING)
-    add_subdirectory("Unit-Tests")
-  endif()
+if(BUILD_TESTING)
+  add_subdirectory("Unit-Tests")
 endif()
