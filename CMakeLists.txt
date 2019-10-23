@@ -30,6 +30,9 @@ foreach(pub_file ${PUB_FILES})
   message(STATUS "${PROJECT_NAME} pub file: ${pub_file}")
 endforeach(pub_file)
 
+#
+# Boost
+#
 if(NOT DEFINED ENV{BOOST_REQUIRED_COMPONENTS})
   set(ENV{BOOST_REQUIRED_COMPONENTS} "boost")
 endif()
