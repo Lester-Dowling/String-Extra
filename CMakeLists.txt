@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.15)
+﻿cmake_minimum_required(VERSION 3.17)
 project(
   "String-Extra"
   VERSION 0.5.0
@@ -31,30 +31,13 @@ foreach(pub_file ${PUB_FILES})
 endforeach(pub_file)
 
 #
-# Boost
-#
-if(NOT DEFINED ENV{BOOST_REQUIRED_COMPONENTS})
-  set(ENV{BOOST_REQUIRED_COMPONENTS} "boost")
-endif()
-function(boost_add_component)
-  foreach(boost_component ${ARGV})
-    set(ENV{BOOST_REQUIRED_COMPONENTS}
-        "$ENV{BOOST_REQUIRED_COMPONENTS};${boost_component}")
-  endforeach(boost_component)
-endfunction()
-
-# Build unit tests only if this project isn't a submodule in a super-project.
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-  include(CTest)
-  message(STATUS "Building unit tests: ${BUILD_TESTING}")
-  if(BUILD_TESTING)
-    boost_add_component(filesystem date_time regex unit_test_framework)
-  endif(BUILD_TESTING)
-endif()
-
-#
 # Unit tests
 #
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
-  add_subdirectory("Unit-Tests")
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    # Build unit tests only if this project isn't a submodule in a super-project.
+    include(CTest)
+    message(STATUS "Building unit tests: ${BUILD_TESTING}")
+    if(BUILD_TESTING)
+        add_subdirectory("Unit-Tests")
+    endif(BUILD_TESTING)
 endif()

@@ -1,8 +1,8 @@
-﻿cmake_minimum_required(VERSION 3.15)
+﻿cmake_minimum_required(VERSION 3.17)
 set(TARGET "Unit-Tests")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-add_executable(${TARGET} "main-unit-tests.cpp" "GlobalFixture.hpp"
+add_executable(${TARGET} "GlobalFixture.hpp"
                          "GlobalFixture.cpp")
 set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 17)
 file(
@@ -44,15 +44,9 @@ endif()
 #
 option(GRANT_INTERNET_ACCESS "Permit CMake to download from the Internet" OFF)
 message(STATUS "Access Internet permission: ${GRANT_INTERNET_ACCESS}")
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  get_filename_component(HOME $ENV{USERPROFILE} ABSOLUTE)
-else()
-  get_filename_component(HOME $ENV{HOME} ABSOLUTE)
-endif()
-get_filename_component(LOCALLY_CACHED_REPOS_DIR "${HOME}/oss" ABSOLUTE)
+get_filename_component(LOCALLY_CACHED_REPOS_DIR $ENV{OSS} ABSOLUTE)
 if(EXISTS ${LOCALLY_CACHED_REPOS_DIR})
-  message(STATUS "Locally cached repositories folder: "
-                 ${LOCALLY_CACHED_REPOS_DIR})
+  message(STATUS "Locally cached repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
 else()
   message(WARNING "No local repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
 endif()
@@ -78,18 +72,37 @@ endif()
 #
 # Boost
 #
+if(NOT DEFINED CACHE{BOOST_REQUIRED_COMPONENTS})
+    set(BOOST_REQUIRED_COMPONENTS "boost" CACHE INTERNAL "")
+endif()
+
+function(boost_require_component)
+  foreach(boost_component ${ARGV})
+    set(BOOST_REQUIRED_COMPONENTS "$CACHE{BOOST_REQUIRED_COMPONENTS};${boost_component}" CACHE INTERNAL "")
+  endforeach(boost_component)
+endfunction()
+
+boost_require_component(filesystem date_time regex unit_test_framework)
+
+
 add_subdirectory("boost")
 target_link_libraries(${TARGET} PRIVATE Boost::boost)
-foreach(Boost_Lib $ENV{BOOST_REQUIRED_COMPONENTS})
+foreach(Boost_Lib $CACHE{BOOST_REQUIRED_COMPONENTS})
   target_link_libraries(${TARGET} PRIVATE Boost::${Boost_Lib})
 endforeach(Boost_Lib)
 if(WIN32)
+  file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/RoboCopy-Log-Boost-redist-from-parent.txt"
+        BOOST_REDIST_COPY_LOG)
   add_custom_command(
     TARGET ${TARGET} PRE_BUILD
     COMMAND
       START /MIN "RoboCopy of Boost redist from parent directory" #
-      ROBOCOPY /COPY:DAT /NP /R:2 /W:2 "${CMAKE_BINARY_DIR}"
-      "${CMAKE_CURRENT_BINARY_DIR}" "boost*dll")
+      ROBOCOPY 
+      /LOG:"${BOOST_REDIST_COPY_LOG}"
+      /COPY:DAT /NP /R:2 /W:2 
+      "${CMAKE_BINARY_DIR}"
+      "${CMAKE_CURRENT_BINARY_DIR}" 
+      "boost*dll")
 endif(WIN32)
 
 #

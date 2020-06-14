@@ -20,6 +20,8 @@ namespace string_extra {
 	 */
 	inline bool is_quoted(string const& str)
 	{
+		if (str.empty())
+			return false;
 		if (str.front() == '\'' && str.back() == '\'')
 			return true;
 		if (str.front() == '"' && str.back() == '"')
