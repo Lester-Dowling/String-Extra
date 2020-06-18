@@ -10,7 +10,7 @@
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include "String-Extra/predicates.hpp"
 namespace string_extra {
 	namespace a = boost::algorithm;
@@ -18,6 +18,7 @@ namespace string_extra {
 
 	inline string erase_commas(string text)
 	{
+		using namespace boost::placeholders;
 		text.erase(
 		  std::remove_if(text.begin(), text.end(), boost::bind(is_comma, _1)), text.end());
 		return text;

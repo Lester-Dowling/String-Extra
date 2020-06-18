@@ -11,11 +11,12 @@ file(
   CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/test-*.cpp")
 target_sources(${TARGET} PRIVATE ${SRC_TEST_FILES})
 target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/test)
+target_precompile_headers(${TARGET} PRIVATE "pch-unit-tests.hpp")
 # Debug dump of test src files:
 foreach(src_file ${SRC_TEST_FILES})
   message(STATUS "${TARGET} src file: ${src_file}")
 endforeach(src_file)
+
 
 #
 # Import the subjects for unit testing
@@ -39,35 +40,6 @@ if(WIN32)
   target_compile_options(${TARGET} PRIVATE -GR) # Turn on RTTI.
 endif()
 
-#
-# Parent directory for locally cached repositories of open source software (oss)
-#
-option(GRANT_INTERNET_ACCESS "Permit CMake to download from the Internet" OFF)
-message(STATUS "Access Internet permission: ${GRANT_INTERNET_ACCESS}")
-get_filename_component(LOCALLY_CACHED_REPOS_DIR $ENV{OSS} ABSOLUTE)
-if(EXISTS ${LOCALLY_CACHED_REPOS_DIR})
-  message(STATUS "Locally cached repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
-else()
-  message(WARNING "No local repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
-endif()
-
-#
-# Pre-compiled Header Downloaded external project
-# https://github.com/larsch/cmake-precompiled-header
-#
-get_filename_component(
-  LOCAL_PRECOMPILED_CMAKE
-  "${LOCALLY_CACHED_REPOS_DIR}/cmake-precompiled-header/PrecompiledHeader.cmake"
-  ABSOLUTE)
-if(EXISTS ${LOCAL_PRECOMPILED_CMAKE})
-  message(STATUS "PrecompiledHeader.cmake: " ${LOCAL_PRECOMPILED_CMAKE})
-  include(${LOCAL_PRECOMPILED_CMAKE})
-  target_sources(${TARGET} PRIVATE "pch-unit-tests.cpp")
-  add_precompiled_header(${TARGET} "pch-unit-tests.hpp" SOURCE_CXX
-                         "pch-unit-tests.cpp")
-else()
-  message(WARNING "No such repo available: cmake-precompiled-header")
-endif()
 
 #
 # Boost

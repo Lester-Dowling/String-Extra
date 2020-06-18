@@ -12,7 +12,6 @@
 #include <optional>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/trim.hpp>
-#include <boost/bind.hpp>
 namespace string_extra {
 	namespace a = boost::algorithm;
 	using std::optional;
