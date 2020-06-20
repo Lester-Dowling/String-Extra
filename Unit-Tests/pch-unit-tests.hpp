@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿#ifndef __PRECOMPILED_HEADER_HPP__
+#define __PRECOMPILED_HEADER_HPP__
 #ifdef _WINDOWS
 #include <WinSDKVer.h>
 #include <SDKDDKVer.h>
@@ -92,3 +93,5 @@ namespace std {
 		return o;
 	}
 } // namespace std
+
+#endif // __PRECOMPILED_HEADER_HPP__
