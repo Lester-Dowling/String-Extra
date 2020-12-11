@@ -5,8 +5,8 @@
     {
       "type": "default",
       "project": "CMakeLists.txt",
-      "projectTarget": "Unit-Tests.exe (Unit-Tests\\Unit-Tests.exe)",
-      "name": "Unit-Tests.exe (Unit-Tests\\Unit-Tests.exe)",
+      "projectTarget": "Unit-Tests.exe",
+      "name": "Unit-Tests.exe",
       "args": [
         "--color_output",
         "--report_level=short",
